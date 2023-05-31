@@ -36,6 +36,27 @@ resource "azurerm_subnet" "example" {
   address_prefixes     = ["10.0.0.0/24"]
 }
 
+# ネットワークインターフェースの作成
+resource "azurerm_network_interface" "example1" {
+  name                = "example-nic1"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+
+  ip_configuration {
+    name                          = "example-ipconfig1"
+    subnet_id                     = azurerm_subnet.example.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+# グローバルIPの作成
+resource "azurerm_public_ip" "example" {
+  name                = "example-publicip"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  allocation_method   = "Static"
+}
+
 # 仮想マシン1の作成
 resource "azurerm_virtual_machine" "example1" {
   name                  = "example-vm1"
