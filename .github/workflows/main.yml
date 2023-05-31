@@ -66,4 +66,4 @@ jobs:
 
       - name: Get Global IP
         run: |
-          echo ${{ terraform.output.instance_ip }}
+          echo "::set-output name=ip_address::$(terraform output -raw public_ip_address)"
